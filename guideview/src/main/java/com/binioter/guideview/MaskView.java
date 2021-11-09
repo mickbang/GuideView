@@ -26,6 +26,8 @@ class MaskView extends ViewGroup {
      * 高亮区域
      */
     private final RectF mTargetRect = new RectF();
+
+    private RectF[] highlightRect;
     /**
      * 蒙层区域
      */
@@ -302,15 +304,26 @@ class MaskView extends ViewGroup {
         mEraserCanvas.drawColor(mFullingPaint.getColor());
         if (!mOverlayTarget) {
             switch (mStyle) {
-                case Component.ROUNDRECT:
-                    mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraser);
-                    break;
                 case Component.CIRCLE:
-                    mEraserCanvas.drawCircle(mTargetRect.centerX(), mTargetRect.centerY(),
-                            mTargetRect.width() / 2, mEraser);
+                    if (highlightRect != null && highlightRect.length > 1) {
+                        for (RectF rectF : highlightRect) {
+                            mEraserCanvas.drawCircle(rectF.centerX(), rectF.centerY(),
+                                    rectF.width() / 2, mEraser);
+                        }
+                    } else {
+                        mEraserCanvas.drawCircle(mTargetRect.centerX(), mTargetRect.centerY(),
+                                mTargetRect.width() / 2, mEraser);
+                    }
                     break;
+                case Component.ROUNDRECT:
                 default:
-                    mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraser);
+                    if (highlightRect != null && highlightRect.length > 1) {
+                        for (RectF rectF : highlightRect) {
+                            mEraserCanvas.drawRoundRect(rectF, mCorner, mCorner, mEraser);
+                        }
+                    } else {
+                        mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraser);
+                    }
                     break;
             }
         }
@@ -319,6 +332,13 @@ class MaskView extends ViewGroup {
 
     public void setTargetRect(Rect rect) {
         mTargetRect.set(rect);
+    }
+
+    public void setHighlightRect(Rect[] highlightRect) {
+        this.highlightRect = new RectF[highlightRect.length];
+        for (int i = 0; i < highlightRect.length; i++) {
+            this.highlightRect[i]=new RectF(highlightRect[i]);
+        }
     }
 
     public void setFullingAlpha(int alpha) {

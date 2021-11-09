@@ -36,4 +36,12 @@ class Common {
     rect.offset(-parentX, -parentY);
     return rect;
   }
+
+  static Rect[] getViewAbsRects(int parentX, int parentY,View... view) {
+    Rect[] results = new Rect[view.length];
+    for (int i = 0; i < view.length; i++) {
+      results[i] = getViewAbsRect(view[i],parentX,parentY);
+    }
+    return results;
+  }
 }

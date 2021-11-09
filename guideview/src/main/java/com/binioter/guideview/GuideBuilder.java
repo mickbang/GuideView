@@ -88,6 +88,17 @@ public class GuideBuilder {
     }
 
     /**
+     * 设置目标view
+     */
+    public GuideBuilder setHoleView(View... v) {
+        if (mBuilt) {
+            throw new BuildException("Already created. rebuild a new one.");
+        }
+        mConfiguration.mHoleViews = v;
+        return this;
+    }
+
+    /**
      * 设置目标View的id
      *
      * @param id 目标View的id

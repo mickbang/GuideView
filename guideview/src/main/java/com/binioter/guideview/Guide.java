@@ -198,7 +198,10 @@ public class Guide implements View.OnKeyListener, View.OnTouchListener {
         }
 
         if (mConfiguration.mTargetView != null) {
-            maskView.setTargetRect(Common.getViewAbsRect(mConfiguration.mTargetView, parentX, parentY));
+            maskView.setTargetRect(Common.getViewAbsRect(mConfiguration.mTargetView,parentX, parentY));
+            if (mConfiguration.mHoleViews != null) {
+                maskView.setHighlightRect(Common.getViewAbsRects(parentX, parentY,mConfiguration.mHoleViews));
+            }
         } else {
             // Gets the target view's abs rect
             View target = activity.findViewById(mConfiguration.mTargetViewId);

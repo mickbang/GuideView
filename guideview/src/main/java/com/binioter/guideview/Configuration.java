@@ -16,6 +16,8 @@ class Configuration implements Parcelable {
    */
   View mTargetView = null;
 
+  View[] mHoleViews = null;
+
   /**
    * 高亮区域的padding
    */
